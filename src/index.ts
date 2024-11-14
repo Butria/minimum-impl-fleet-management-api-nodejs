@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import { PrismaClient } from '@prisma/client';
@@ -19,37 +19,41 @@ app.use(cors({
 app.use(bodyParser.json());
 
 // Ruta para crear un nuevo cliente
-app.post('/customers', async (req, res) => {
-  try {
-    const { name, nid, telephone, email, height, age, is_minor, parent_name } = req.body;
-
-    if (!name || !nid || !telephone || !email || !height || !age || is_minor === undefined) {
-      return res.status(400).json({ message: 'Todos los campos son requeridos' });
-    }
-
-    if (is_minor && !parent_name) {
-      return res.status(400).json({ message: 'Se debe proporcionar el nombre del padre o tutor si el cliente es menor de edad' });
-    }
-
-    const customer = await prisma.customer.create({
-      data: {
-        name,
-        nid,
-        telephone,
-        email,
-        height,
-        age,
-        is_minor,
-        parent_name: is_minor ? parent_name : null,
-      },
-    });
-
-    return res.status(201).json(customer);
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: 'Error al crear el cliente' });
-  }
-});
+app.post('/customers', async (req: Request, res: Response) => {
+	try {
+	  const { name, nid, telephone, email, height, age, is_minor, parent_name } = req.body;
+  
+	  if (!name || !nid || !telephone || !email || !height || !age || is_minor === undefined) {
+		return res.status(400).json({ message: 'Todos los campos son requeridos' });
+	  }
+  
+	  if (is_minor && !parent_name) {
+		return res.status(400).json({ message: 'Se debe proporcionar el nombre del padre o tutor si el cliente es menor de edad' });
+	  }
+  
+	  const customer = await prisma.customer.create({
+		data: {
+		  name,
+		  nid,
+		  telephone,
+		  email,
+		  height,
+		  age,
+		  is_minor,
+		  parent_name: is_minor ? parent_name : null,
+		},
+	  });
+  
+	  return res.status(201).json(customer);
+	} catch (error) {
+	  console.error('Error al crear el cliente:', error); // Asegúrate de que este mensaje se imprima en la consola del servidor
+	  if (error instanceof Error) {
+		return res.status(500).json({ message: `Error al crear el cliente: ${error.message}` });
+	  }
+	  return res.status(500).json({ message: 'Error al crear el cliente' });
+	}
+  });
+  
 
 // Ruta para obtener todos los clientes
 app.get('/customers', async (req, res) => {

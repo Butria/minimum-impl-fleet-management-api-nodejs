@@ -16,8 +16,9 @@ model Customer {
   nid         Int
   telephone   Int
   email       String
-  height      Float
+  height      Int
   age         Int
   is_minor    Boolean  
   parent_name String?  // Campo opcional para el nombre del padre, solo si es menor de edad
 }
+
