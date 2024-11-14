@@ -10,8 +10,14 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Taxi {
-  id           Int            @id(map: "taxis_pkey")
-  plate        String
-  @@map("taxis")
+model Customer {
+  id          Int     @id @default(autoincrement())
+  name        String
+  nid         Int
+  telephone   Int
+  email       String
+  height      Float
+  age         Int
+  is_minor    Boolean  // Campo para saber si es menor de edad
+  parent_name String?  // Campo opcional para el nombre del padre, solo si es menor de edad
 }
