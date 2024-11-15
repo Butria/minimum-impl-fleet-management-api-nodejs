@@ -6,11 +6,11 @@ import { PrismaClient } from '@prisma/client';
 // Crear una instancia de Express
 const app = express();
 const prisma = new PrismaClient();
-const port = 5000;  // Puerto del servidor
+const port = 5000;  
 
 // Configuración de CORS
 app.use(cors({
-  origin: 'http://localhost:5178',  // Permite el acceso solo desde este origen
+  origin: 'http://localhost:5173',  // Permite el acceso solo desde este origen
   methods: ['GET', 'POST', 'DELETE', 'PUT', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
@@ -496,4 +496,4 @@ app.listen(port, () => {
 		  }
 		}
 	  });
-		
+	

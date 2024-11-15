@@ -6,8 +6,9 @@
 	"scripts": {
 		"dev": "ts-node-dev ./src/index.ts",
 		"build": "rimraf ./build && prisma generate && tsc",
-		"start": "npm run build && node ./build/index.js",
-		"postinstall": "prisma generate"
+		"start": "ts-node-dev src/index.ts",
+		"postinstall": "prisma generate",
+		"test": "jest"
 	},
 	"keywords": [],
 	"author": "Sergio Sinuco",
