@@ -13,6 +13,7 @@ datasource db {
 model Customer {
   id          Int     @id @default(autoincrement())
   name        String
+  visits      Visit[]
   nid         Int
   telephone   Int
   email       String
@@ -22,3 +23,43 @@ model Customer {
   parent_name String?  // Campo opcional para el nombre del padre, solo si es menor de edad
 }
 
+model Employee {
+  id          Int     @id @default(autoincrement())
+  name        String
+  role        String
+  email       String
+  telephone   String
+  workHours   String
+}
+
+model Ticket {
+  id         Int     @id @default(autoincrement())
+  type       String
+  price      Float
+  stationId  Int
+  station    Station @relation(fields: [stationId], references: [id])
+}
+
+model Attraction {
+  id            Int     @id @default(autoincrement())
+  name          String
+  description   String
+  classification String
+  conditions    String
+  status        String
+}
+
+model Station {
+  id         Int     @id @default(autoincrement())
+  name       String
+  isEnabled  Boolean
+  tickets    Ticket[]
+}
+
+model Visit {
+  id Int       @id @default(autoincrement())
+  date         DateTime
+  customerId   Int
+  attractionId Int
+  customer     Customer @relation(fields: [customerId], references: [id])
+  }
